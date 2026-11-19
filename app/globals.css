@@ -1,26 +1,114 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+  Design tokens follow the component language of the "Core Design – Analytic" Figma file
+  (light grey page, white cards with large radius and soft shadow, tinted badges/alerts,
+  medium-weight buttons), with the primary color swapped to the garage's yellow/black.
+*/
+@theme {
+  --font-sans: var(--font-be-vietnam), ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand: #ffd400;
+  --color-brand-600: #f0c400;
+  --color-brand-50: #fff9d6;
+  --color-ink: #14151a;
+  --color-night: #0d0e12;
+  --color-night-2: #17181e;
+  --color-surface: #f4f5f9;
+  --color-line: #e6e8ef;
+  --color-muted: #6b7083;
+
+  --color-messenger: #0a7cff;
+  --color-zalo: #0068ff;
+  --color-call: #16a34a;
+
+  --radius-card: 1rem;
+  --shadow-card: 0 1px 2px rgb(20 21 26 / 0.04), 0 8px 24px rgb(20 21 26 / 0.06);
+  --shadow-pop: 0 10px 30px rgb(20 21 26 / 0.18);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4.5rem;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@utility container-x {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+}
+
+@utility card {
+  @apply rounded-[var(--radius-card)] bg-white shadow-[var(--shadow-card)];
+}
+
+@utility btn {
+  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-5 text-[15px] font-semibold transition active:scale-[0.98];
+}
+@utility btn-brand {
+  @apply btn bg-brand text-ink shadow-[0_6px_20px_rgb(255_212_0/0.35)] hover:bg-brand-600;
+}
+@utility btn-dark {
+  @apply btn bg-ink text-white hover:bg-black;
+}
+@utility btn-ghost-light {
+  @apply btn border border-white/20 bg-white/5 text-white hover:bg-white/10;
+}
+@utility btn-outline {
+  @apply btn border border-line bg-white text-ink hover:border-ink/30;
+}
+
+@utility badge {
+  @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold;
+}
+
+@utility eyebrow {
+  @apply badge bg-brand-50 text-[#8a6d00];
+}
+
+@utility section {
+  @apply py-14 sm:py-20;
+}
+
+@utility h2 {
+  @apply text-[26px] leading-tight font-extrabold tracking-tight sm:text-4xl;
+}
+
+/* Gentle pulse on the main CTA in the sticky bar */
+@keyframes cta-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(10 124 255 / 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgb(10 124 255 / 0);
+  }
+}
+.cta-pulse {
+  animation: cta-pulse 2.4s ease-in-out infinite;
+}
+
+/* Hazard stripes like the storefront sign */
+.stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-brand) 0 10px,
+    var(--color-ink) 10px 20px
+  );
 }
